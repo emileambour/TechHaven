@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Haven - Home Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home-page.css') }}">
+
+    <link rel="icon" type="image/x-icon" href="{{ url_for('serve_image', filename='favicon.png') }}">
+    <script src="{{ url_for('static', filename='js/home-page.js') }}" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{{ url_for('serve_image', filename='favicon.png') }}" alt="Tech Haven Logo" class="logo">
+            <h1>Tech Haven</h1>
+        </div>
+        
+<nav>
+    <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('products') }}">Products</a></li>
+
+        {% if user %}
+            {% if user.role == 'customer' %}
+                <li><a href="{{ url_for('cart') }}">Cart</a></li>
+            
+            {% endif %}
+        {% endif %}
+
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+</nav>
+
+    </header>
+
+    <main>
+        <section class="welcome">
+            <h2>Welcome to Tech Haven, {{ first_name }}!</h2>
+            <p>Your one-stop shop for the latest and greatest in electronics.</p>
+        </section>
+
+        <section class="featured-products">
+            <h2>Featured Products</h2>
+            <div id="product-list"></div> <!-- Products will be dynamically inserted here -->
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Tech Haven. All rights reserved.</p>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" title="Go to top">▲</button>
+</body>
+
+</html>

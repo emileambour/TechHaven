@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tech Haven - Your Cart</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('serve_image', filename='favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cart-page.css') }}">
+    <script src="{{ url_for('static', filename='js/cart-page.js') }}" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="{{ url_for('home') }}">
+                <img src="{{ url_for('serve_image', filename='favicon.png') }}" alt="Tech Haven Logo" class="logo">
+            </a>
+            <h1>Tech Haven</h1>
+        </div>
+        
+<nav>
+    <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('products') }}">Products</a></li>
+
+        {% if user %}
+            {% if user.role == 'customer' %}
+                <li><a href="{{ url_for('cart') }}">Cart</a></li>
+            
+            {% endif %}
+        {% endif %}
+
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+</nav>
+
+    </header>
+
+    <main>
+        <section class="product-section">
+            <h2>Your Cart</h2>
+            <div id="cart-list" class="cart-grid">
+                {% if cart %}
+                {% for item in cart %}
+                <div class="product">
+                    <img src="{{ url_for('serve_image', filename=item.image) }}" alt="{{ item.name }}">
+                    <p><strong>{{ item.name }}</strong></p>
+                    <p>Price: ${{ item.price }}</p>
+                    <form method="post" action="{{ url_for('update_cart_quantity') }}" class="quantity-form">
+                        <input type="hidden" name="product_id" value="{{ item.id }}">
+                        <p>Quantity:
+                            <button type="submit" name="action" value="decrease">–</button>
+                            <span>{{ item.quantity }}</span>
+                            <button type="submit" name="action" value="increase">+</button>
+                        </p>
+                    </form>
+                    <p>Subtotal: ${{ '%.2f' | format(item.price * item.quantity) }}</p>
+                    <form method="post" action="{{ url_for('remove_from_cart') }}">
+                        <input type="hidden" name="product_id" value="{{ item.id }}">
+                        <button class="remove-btn" type="submit">Remove</button>
+                    </form>
+                </div>
+                {% endfor %}
+                <div class="cart-summary">
+                    <p><strong>Total Price:</strong> ${{ '%.2f' | format(total) }}</p>
+                </div>
+                {% else %}
+                <p>Your cart is empty.</p>
+                {% endif %}
+            </div>
+
+
+
+
+            {% if cart %}
+            <button id="clearCartBtn"
+                style="margin-top: 20px; padding: 10px 20px; background-color: #d32f2f; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Clear Cart
+            </button>
+            <button id="checkoutBtn"
+                style="margin-top: 10px; padding: 10px 20px; background-color: #d32f2f; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Checkout
+            </button>
+            {% endif %}
+
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Tech Haven. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,10 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Ignore local database
+instance/database.db
+
+# OS-specific files
+.DS_Store
+Thumbs.db

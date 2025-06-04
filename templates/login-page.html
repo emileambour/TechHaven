@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Haven - Login</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('serve_image', filename='favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login-page.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{{ url_for('serve_image', filename='favicon.png') }}" alt="Electronics Store Logo" class="logo">
+            <h1>Tech Haven</h1>
+        </div>
+    </header>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="POST" action="{{ url_for('login') }}">
+            <label for="email">Email:</label>
+            <input type="email" name="email" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+            
+            <button type="submit">Login</button>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p class="error">{{ messages[0] }}</p>
+            {% endif %}
+       {% endwith %}
+        </form>
+        <p>Don't have an account? <a href="{{ url_for('register') }}" id="showRegister">Sign up</a></p>
+    </div>
+    
+    </body>
+</html>

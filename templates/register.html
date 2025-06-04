@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Tech Haven</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login-page.css') }}">
+    <script>
+        function toggleAdminKeyField() {
+            const roleSelect = document.getElementById("role");
+            const adminKeyDiv = document.getElementById("adminKeyField");
+            adminKeyDiv.style.display = roleSelect.value === "admin" ? "block" : "none";
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{{ url_for('serve_image', filename='favicon.png') }}" alt="Electronics Store Logo" class="logo">
+            <h1>Tech Haven</h1>
+        </div>
+    </header>
+    <div class="login-container">
+        <h2>Create an Account</h2>
+        <form method="POST" action="{{ url_for('register') }}">
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" required>
+            
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+
+            <label for="role">Role:</label>
+            <select name="role" id="role" onchange="toggleAdminKeyField()" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 100%;">
+                <option value="customer">Customer</option>
+                <option value="admin">Admin</option>
+            </select>
+
+            <div id="adminKeyField" style="display: none; margin-top: 10px;" style="display: none;">
+                <label for="admin_key">Admin Access Key:</label>
+                <input type="text" name="admin_key" placeholder="Enter admin password">
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p class="error">{{ messages[0] }}</p>
+            {% endif %}
+        {% endwith %}
+
+        <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+    </div>
+</body>
+</html>
